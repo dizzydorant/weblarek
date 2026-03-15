@@ -1,10 +1,10 @@
 import './scss/styles.scss';
-import { Products } from './components/base/Models/Products';
-import { Basket } from './components/base/Models/Basket'; 
-import { Buyer } from './components/base/Models/Buyer'; 
+import { Products } from './components/Models/Products';
+import { Basket } from './components/Models/Basket'; 
+import { Buyer } from './components/Models/Buyer'; 
 import { apiProducts } from './utils/data';
 import { Api } from './components/base/Api';
-import { LarekApi } from './components/base/LarekApi';
+import { LarekApi } from './components/LarekApi';
 import { API_URL } from './utils/constants';
 // --- 1. Тестирование модели Products (Каталог) ---
 // Создаем экземпляр класса Products
@@ -45,6 +45,9 @@ basket.remove(apiProducts.items[0].id);
 console.log('Товары после удаления одного:', basket.getItems());
 console.log('Новая сумма корзины:', basket.getTotal());
 
+// Удалеие всей корзины
+basket.clear();
+console.log('Товары в корзине после удаления всех товаров', basket.getItems())
 
 // --- 3. Тестирование модели Buyer (Покупатель) ---
 // Создаем экземпляр класса Buyer
