@@ -1,7 +1,7 @@
-import { IBuyer } from "../../../types";
+import { IBuyer } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Buyer {
-
   protected _buyer: IBuyer = {
     payment: null,
     email: "",
@@ -9,10 +9,11 @@ export class Buyer {
     address: "",
   };
 
-  constructor() {}
+  constructor(protected events: IEvents) {}
 
   setData(buyer: Partial<IBuyer>): void {
     Object.assign(this._buyer, buyer);
+    this.events.emit('buyer:changed', this._buyer);
   }
 
   getData(): IBuyer {
@@ -24,9 +25,10 @@ export class Buyer {
     this._buyer.email = "";
     this._buyer.phone = "";
     this._buyer.address = "";
+    this.events.emit('buyer:clear');
   }
 
-  validate(): Partial<Record<keyof IBuyer, string>> {
+  validate(): boolean {
     const errors: Partial<Record<keyof IBuyer, string>> = {};
 
     if (!this._buyer.payment) {
@@ -42,6 +44,9 @@ export class Buyer {
       errors.address = "Укажите адрес доставки";
     }
 
-    return errors;
+    this.events.emit('formErrors:change', errors);
+
+    return Object.keys(errors).length === 0;
   }
 }
+
