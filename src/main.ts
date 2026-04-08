@@ -26,17 +26,17 @@ import { Success } from './components/view/Success';
 // Типы
 import { IProduct, IBuyer, IOrderResult } from './types';
 
-// --- Инициализация базовых инструментов ---
+// Инициализация базовых инструментов 
 const events = new EventEmitter();
 const baseApi = new Api(API_URL);
 const api = new LarekApi(baseApi);
 
-// --- Инициализация Моделей ---
+// Инициализация Моделей 
 const productsModel = new Products(events);
 const basketModel = new BasketModel(events);
 const buyerModel = new Buyer(events);
 
-// --- Инициализация Представлений (Синглтоны) ---
+// Инициализация Представлений 
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'));
 const header = new Header(ensureElement<HTMLElement>('.header'), events);
 const gallery = new Gallery(ensureElement<HTMLElement>('.gallery'));
@@ -52,7 +52,7 @@ const successView = new Success(cloneTemplate('#success'), {
     onClick: () => modal.close()
 });
 
-// --- ОБРАБОТЧИКИ СОБЫТИЙ МОДЕЛЕЙ (RENDER) ---
+// ОБРАБОТЧИКИ СОБЫТИЙ МОДЕЛЕЙ 
 
 // Изменение списка товаров в каталоге
 events.on('items:changed', () => {
@@ -116,7 +116,7 @@ events.on('buyer:changed', (buyer: IBuyer) => {
     });
 });
 
-// --- ОБРАБОТЧИКИ СОБЫТИЙ ПРЕДСТАВЛЕНИЙ (LOGIC) ---
+// ОБРАБОТЧИКИ СОБЫТИЙ ПРЕДСТАВЛЕНИЙ 
 
 // Выбор карточки для просмотра
 events.on('card:select', (item: IProduct) => {
@@ -143,7 +143,7 @@ events.on('card:toggle-basket', () => {
     }
 });
 
-// Работа с данными покупателя (только запись в модель)
+// Работа с данными покупателя 
 events.on('payment:change', (data: { target: string }) => {
     buyerModel.setData({ payment: data.target as any });
 });
@@ -152,7 +152,7 @@ events.on(/^order\..*:change|^contacts\..*:change/, (data: { field: keyof IBuyer
     buyerModel.setData({ [data.field]: data.value });
 });
 
-// Управление модальными окнами (всегда берем актуальные данные из моделей)
+// Управление модальными окнами 
 events.on('basket:open', () => {
     modal.render({ content: basketView.render({}) });
 });
@@ -193,7 +193,6 @@ events.on('contacts:submit', () => {
 
     api.orderProducts(orderData)
         .then((result: IOrderResult) => {
-            // Очистка производится СРАЗУ после подтверждения сервером
             basketModel.clear();
             buyerModel.clear();
 
@@ -206,7 +205,7 @@ events.on('contacts:submit', () => {
         .catch(console.error);
 });
 
-// --- СТАРТ ПРИЛОЖЕНИЯ ---
+//  СТАРТ ПРИЛОЖЕНИЯ 
 api.getProductList()
     .then((items) => {
         productsModel.setItems(items);
