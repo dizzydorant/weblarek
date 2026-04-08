@@ -16,15 +16,16 @@ export class Basket extends Component<{ items: HTMLElement[], total: number }> {
         this._button.addEventListener('click', () => {
             this.events.emit('order:open');
         });
+
+        this._button.disabled = true
     }
 
     set items(items: HTMLElement[]) {
         if (items.length > 0) {
             this._list.replaceChildren(...items);
             this._button.disabled = false;
-            
         } else {
-            this._list.replaceChildren();
+            this._list.replaceChildren(); 
             this._button.disabled = true;
         }
     }

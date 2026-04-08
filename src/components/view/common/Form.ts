@@ -4,7 +4,7 @@ import { ensureElement } from "../../../utils/utils";
 
 interface IFormState {
     valid: boolean;
-    errors: string[];
+    errors: string[]; 
 }
 
 export class Form<T> extends Component<IFormState & T> { 
@@ -34,16 +34,15 @@ export class Form<T> extends Component<IFormState & T> {
         this._submit.disabled = !value;
     }
 
-    set errors(value: string) {
-        this._errors.textContent = value;
+    set errors(value: string[]) {
+        this._errors.textContent = value.join('; ');
     }
 
     render(state: Partial<IFormState & T>) {
-        const { valid, errors, ...inputs } = state;
-        super.render({ valid, errors } as Partial<IFormState & T>);
-        Object.assign(this, inputs);
+        super.render(state);
         return this.container;
     }
 }
+
 
 

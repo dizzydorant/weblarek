@@ -23,8 +23,12 @@ export class Order extends Form<{ address: string; payment: string }> {
     }
 
     set address(value: string) {
-        (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
+        const input = this.container.elements.namedItem('address') as HTMLInputElement;
+        if (input) {
+            input.value = value;
+        }
     }
 }
+
 
 

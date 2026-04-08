@@ -25,10 +25,9 @@ export class Buyer {
     this._buyer.email = "";
     this._buyer.phone = "";
     this._buyer.address = "";
-    this.events.emit('buyer:clear');
   }
 
-  validate(): boolean {
+  validate(): Partial<Record<keyof IBuyer, string>> {
     const errors: Partial<Record<keyof IBuyer, string>> = {};
 
     if (!this._buyer.payment) {
@@ -44,9 +43,8 @@ export class Buyer {
       errors.address = "Укажите адрес доставки";
     }
 
-    this.events.emit('formErrors:change', errors);
 
-    return Object.keys(errors).length === 0;
+    return errors;
   }
 }
 

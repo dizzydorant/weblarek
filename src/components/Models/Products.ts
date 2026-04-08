@@ -22,7 +22,6 @@ export class Products {
 
   setPreview(item: IProduct): void {
     this._preview = item;
-    this.events.emit('card:select', this._preview);
   }
 
   getPreview(): IProduct | null {
