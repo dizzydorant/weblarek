@@ -46,9 +46,4 @@ export class Form<T> extends Component<IFormState & T> {
   set errors(value: string[]) {
     this._errors.textContent = value.join("; ");
   }
-
-  render(state: Partial<IFormState & T>) {
-    super.render(state);
-    return this.container;
-  }
 }

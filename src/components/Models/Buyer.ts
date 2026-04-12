@@ -13,7 +13,7 @@ export class Buyer {
 
   setData(buyer: Partial<IBuyer>): void {
     Object.assign(this._buyer, buyer);
-    this.events.emit('buyer:changed', this._buyer);
+    this.events.emit("buyer:changed");
   }
 
   getData(): IBuyer {
@@ -25,6 +25,8 @@ export class Buyer {
     this._buyer.email = "";
     this._buyer.phone = "";
     this._buyer.address = "";
+
+    this.events.emit("buyer:changed");
   }
 
   validate(): Partial<Record<keyof IBuyer, string>> {
@@ -43,8 +45,6 @@ export class Buyer {
       errors.address = "Укажите адрес доставки";
     }
 
-
     return errors;
   }
 }
-

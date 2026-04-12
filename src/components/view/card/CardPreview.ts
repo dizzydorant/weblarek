@@ -19,7 +19,7 @@ export class CardPreview extends Card<ICardPreview> {
     container: HTMLElement,
     actions?: { onClick: (event: MouseEvent) => void },
   ) {
-    super(container); 
+    super(container);
 
     this._description = ensureElement<HTMLElement>(".card__text", container);
     this._image = ensureElement<HTMLImageElement>(".card__image", container);
@@ -37,11 +37,11 @@ export class CardPreview extends Card<ICardPreview> {
 
   set image(value: string) {
     this._image.src = value;
-    this._image.alt = this._title.textContent || "";
+    this._image.alt = this.title;
   }
 
   set category(value: string) {
-    const modifier = categoryMap[value as keyof typeof categoryMap];
+    const modifier = categoryMap[value as keyof typeof categoryMap] || "";
     this._category.textContent = value;
     this._category.className = `card__category ${modifier}`;
   }
@@ -52,11 +52,13 @@ export class CardPreview extends Card<ICardPreview> {
     if (value === null) {
       this._button.disabled = true;
       this._button.textContent = "Недоступно";
-    } else this._button.disabled = false
+    } else {
+      this._button.disabled = false;
+    }
   }
 
   set buttonTitle(value: string) {
-    if (this._price.textContent !== "Бесценно") {
+    if (this._button.disabled === false) {
       this._button.textContent = value;
     }
   }
